@@ -70,8 +70,26 @@ static void generateSphere(std::vector<Vertex>& vertices, std::vector<uint32_t>&
     }
 }
 
-int main() {
-    // Initialize GLFW and create window with Vulkan support
+int main(int argc, char** argv) {
+    bool headless = false;
+    for (int i = 1; i < argc; ++i) {
+        if (strcmp(argv[i], "--headless") == 0) headless = true;
+    }
+    // Initialize GLFW only if not headless
+    if (!headless) {
+        if (!glfwInit()) {
+            std::cerr << "Failed to initialize GLFW" << std::endl;
+            return -1;
+        }
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        GLFWwindow* window = glfwCreateWindow(1280, 720, "My Sun Simulation", nullptr, nullptr);
+        if (!window) {
+            std::cerr << "Failed to create GLFW window" << std::endl;
+            glfwTerminate();
+            return -1;
+        }
+
+// Initialize GLFW and create window with Vulkan support
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
         return -1;
@@ -83,6 +101,7 @@ int main() {
         glfwTerminate();
         return -1;
     }
+
 
     // Create Vulkan instance
     VkInstance instance;
