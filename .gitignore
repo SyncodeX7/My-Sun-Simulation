@@ -1,0 +1,11 @@
+# Build directory
+build/
+bin/
+
+# Logs and scratch files
+*.log
+scratch/
+
+# IDE / Editor directories
+.vscode/
+.idea/
